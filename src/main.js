@@ -7,3 +7,4 @@ import { getAllMovies } from "./api/movieAPI";
 getAllMovies();
 
 // ole ole los caracoleh
+//ya tu sabeh
