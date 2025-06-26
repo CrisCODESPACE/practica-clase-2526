@@ -1,14 +1,17 @@
-const apiKey = import.meta.env.VITE_API_KEY;
+const main = document.getElementById("main-container");
 
-console.log(apiKey);
+// funcion para vistas dinámicas
+async function loadView(viewName) {
+  const response = await fetch(`views/${viewName}.html`);
+  const html = await response.text();
 
-import { getAllMovies } from "./api/movieAPI";
+  main.innerHTML = html;
 
-getAllMovies();
+  // if (viewName === "register") aquí irá la funcion que muestre register
+  // if (viewName === "login")  aquí irá la funcion que muestre login
+  // if (viewName === "profile")  aquí irá la funcion que muestre profile
+}
 
-// ole ole los caracoleh
-//ya tu sabeh
+// llamada inicial por defecto a login
 
-console.log("Esto es un mergeo de una feature");
-
-//adios
+loadView("login");
