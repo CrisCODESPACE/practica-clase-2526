@@ -1,3 +1,5 @@
+import { createUser } from "./API/usersApi";
+
 const main = document.getElementById("main-container");
 
 // funcion para vistas dinámicas
@@ -15,3 +17,10 @@ async function loadView(viewName) {
 // llamada inicial por defecto a login
 
 loadView("login");
+
+createUser({
+  userName: "Paco",
+  userEmail: "pacopi@preuba.com",
+  password: "1254489",
+  userCountry: "España",  
+});
