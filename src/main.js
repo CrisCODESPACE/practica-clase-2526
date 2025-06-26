@@ -1,4 +1,4 @@
-import { createUser } from "./API/usersApi";
+import { createUser, getAllUsers } from "./API/usersApi";
 
 const main = document.getElementById("main-container");
 
@@ -10,13 +10,13 @@ async function loadView(viewName) {
   main.innerHTML = html;
 
   if (viewName === "register") uiRegister();
-  // if (viewName === "login")  aquí irá la funcion que muestre login
+  if (viewName === "login") uiLogin();
   // if (viewName === "profile")  aquí irá la funcion que muestre profile
 }
 
 // llamada inicial por defecto a login
 
-loadView("register");
+loadView("login");
 
 // UI de register
 
@@ -41,3 +41,29 @@ function uiRegister() {
     await createUser(userData);
   });
 }
+
+
+function uiLogin() {
+  const form = document.getElementById("login-form");
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const logEmail = document.getElementById("log-email").value;
+    const logPassword = document.getElementById("log-password").value;
+
+    const allUsers = await getAllUsers();
+    const user = allUsers.find(u => u.userEmail === logEmail && u.password === logPassword);
+
+    console.log(user);
+
+    localStorage.setItem("Current user", JSON.stringify(user))
+    
+  })
+
+  const toRegister = document.getElementById("to-register");
+
+  toRegister.addEventListener("click", () => {
+    loadView("register")
+  })
+};

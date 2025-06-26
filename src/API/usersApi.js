@@ -28,3 +28,24 @@ export async function createUser(user) {
     console.error(error);
   }
 }
+
+
+//Request of all users
+
+export async function getAllUsers() {
+  const url = urlBase;
+  try {
+    const response = await fetch(url)
+
+    if(!response.ok) {
+      throw new Error("Error al obtener los usuarios")
+    }
+
+    const allUsers = await response.json();
+    console.log(allUsers);
+    return allUsers;
+    
+  } catch (error) {
+    console.error(error); 
+  }
+}
