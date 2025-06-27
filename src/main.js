@@ -160,4 +160,10 @@ function uiProfile() {
 
 // console.log(hashedPassword);
 
+
+
+
+//hola los caracolis
+
 console.log("hola, desde la featureCris/T7");
+
