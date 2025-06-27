@@ -1,6 +1,11 @@
 import { createUser, getAllUsers, updateUserTask } from "./API/usersApi";
 import { renderTask } from "./utils/utils";
+
+import { credentialValidations } from "./utils/utils";
+import { showToast } from "./utils/utils";
+
 import sha256 from "crypto-js/sha256";
+
 
 const main = document.getElementById("main-container");
 
@@ -28,10 +33,17 @@ function uiRegister() {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const regName = document.getElementById("reg-name").value;
+    const regName = document.getElementById("reg-name").value.trim();
     const regEmail = document.getElementById("reg-email").value;
     const regPassword = document.getElementById("reg-password").value;
     const regCountry = document.getElementById("reg-country").value;
+
+
+    const validations = credentialValidations({
+      name: regName,
+      email: regEmail,
+      password: regPassword,
+    });
 
     const hashedPassword = sha256(regPassword).toString();
 
@@ -44,9 +56,18 @@ function uiRegister() {
       regCountry,
     };
 
-    await createUser(userData);
+    if (validations) {
+      const userData = {
+        regName,
+        regEmail,
+        regPassword,
+        regCountry,
+      };
 
-    loadView("login");
+      await createUser(userData);
+
+      loadView("login");
+    }
   });
 }
 
@@ -59,16 +80,26 @@ function uiLogin() {
 
     const logEmail = document.getElementById("log-email").value;
     const logPassword = document.getElementById("log-password").value;
+
     const logPasswordHashed = sha256(logPassword).toString();
+
     const allUsers = await getAllUsers();
 
     const user = allUsers.find(
       (u) => u.userEmail === logEmail && u.password === logPasswordHashed
     );
 
-    localStorage.setItem("Current user", JSON.stringify(user));
+    if (user !== undefined) {
+      localStorage.setItem("Current user", JSON.stringify(user));
 
-    loadView("profile");
+      loadView("profile");
+    } else {
+      // alert("Email o contraseña no valido");
+      showToast({
+        text: "Email o contraseña no valido",
+        type: "error",
+      });
+    }
   });
 
   toRegister.addEventListener("click", () => {
