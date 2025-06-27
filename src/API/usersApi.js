@@ -23,32 +23,30 @@ export async function createUser(user) {
       throw new Error("Error al registrar el usuario");
     }
     const newUser = await response.json();
-    console.log(`usuario creado ${newUser}`);
   } catch (error) {
     console.error(error);
   }
 }
 
-
-//Request of all users
+//Request of all users GET
 
 export async function getAllUsers() {
   const url = urlBase;
   try {
-    const response = await fetch(url)
+    const response = await fetch(url);
 
-    if(!response.ok) {
-      throw new Error("Error al obtener los usuarios")
+    if (!response.ok) {
+      throw new Error("Error al obtener los usuarios");
     }
 
     const allUsers = await response.json();
-    console.log(allUsers);
     return allUsers;
-    
   } catch (error) {
-    console.error(error); 
+    console.error(error);
   }
-};
+}
+
+//  peticion PUT edición user taskList
 
 export async function updateUserTask(id, taskList) {
   const url = `${urlBase}/${id}`;
@@ -56,22 +54,19 @@ export async function updateUserTask(id, taskList) {
     const response = await fetch(url, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        taskList 
-      })
-      }
-    )
+        taskList,
+      }),
+    });
 
-    if(!response.ok) {
-      throw new Error ("Error:", response.status);
+    if (!response.ok) {
+      throw new Error("Error:", response.status);
     }
 
     return await response.json();
-
-
   } catch (error) {
-    console.error(error);  
-  }  
+    console.error(error);
+  }
 }
