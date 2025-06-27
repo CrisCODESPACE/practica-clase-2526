@@ -7,6 +7,8 @@ import { showToast } from "./utils/utils";
 import sha256 from "crypto-js/sha256";
 
 
+//holi
+
 const main = document.getElementById("main-container");
 
 // funcion para vistas dinámicas
@@ -37,7 +39,6 @@ function uiRegister() {
     const regEmail = document.getElementById("reg-email").value;
     const regPassword = document.getElementById("reg-password").value;
     const regCountry = document.getElementById("reg-country").value;
-
 
     const validations = credentialValidations({
       name: regName,
@@ -161,4 +162,8 @@ function uiProfile() {
 
 
 
+
 //hola los caracolis
+
+console.log("hola, desde la featureCris/T7");
+
