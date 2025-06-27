@@ -1,7 +1,11 @@
 import { createUser, getAllUsers, updateUserTask } from "./API/usersApi";
 import { renderTask } from "./utils/utils";
+
 import { credentialValidations } from "./utils/utils";
 import { showToast } from "./utils/utils";
+
+import sha256 from "crypto-js/sha256";
+
 
 const main = document.getElementById("main-container");
 
@@ -34,11 +38,23 @@ function uiRegister() {
     const regPassword = document.getElementById("reg-password").value;
     const regCountry = document.getElementById("reg-country").value;
 
+
     const validations = credentialValidations({
       name: regName,
       email: regEmail,
       password: regPassword,
     });
+
+    const hashedPassword = sha256(regPassword).toString();
+
+    console.log(hashedPassword);
+
+    const userData = {
+      regName,
+      regEmail,
+      hashedPassword,
+      regCountry,
+    };
 
     if (validations) {
       const userData = {
@@ -65,10 +81,12 @@ function uiLogin() {
     const logEmail = document.getElementById("log-email").value;
     const logPassword = document.getElementById("log-password").value;
 
+    const logPasswordHashed = sha256(logPassword).toString();
+
     const allUsers = await getAllUsers();
 
     const user = allUsers.find(
-      (u) => u.userEmail === logEmail && u.password === logPassword
+      (u) => u.userEmail === logEmail && u.password === logPasswordHashed
     );
 
     if (user !== undefined) {
@@ -134,3 +152,9 @@ function uiProfile() {
     renderTask(currentUser.taskList, taskList, "li");
   });
 }
+
+// let password = 12345;
+
+// let hashedPassword = sha256(password).toString();
+
+// console.log(hashedPassword);

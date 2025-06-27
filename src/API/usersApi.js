@@ -14,7 +14,7 @@ export async function createUser(user) {
       body: JSON.stringify({
         userName: user.regName,
         userEmail: user.regEmail,
-        password: user.regPassword,
+        password: user.hashedPassword,
         userCountry: user.regCountry,
       }),
     });
