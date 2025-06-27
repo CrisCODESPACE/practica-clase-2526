@@ -1,5 +1,6 @@
 import { createUser, getAllUsers, updateUserTask } from "./API/usersApi";
 import { renderTask } from "./utils/utils";
+import { credentialValidations } from "./utils/utils";
 
 const main = document.getElementById("main-container");
 
@@ -27,21 +28,29 @@ function uiRegister() {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const regName = document.getElementById("reg-name").value;
+    const regName = document.getElementById("reg-name").value.trim();
     const regEmail = document.getElementById("reg-email").value;
     const regPassword = document.getElementById("reg-password").value;
     const regCountry = document.getElementById("reg-country").value;
 
-    const userData = {
-      regName,
-      regEmail,
-      regPassword,
-      regCountry,
-    };
+    const validations = credentialValidations({
+      name: regName,
+      email: regEmail,
+      password: regPassword,
+    });
 
-    await createUser(userData);
+    if (validations) {
+      const userData = {
+        regName,
+        regEmail,
+        regPassword,
+        regCountry,
+      };
 
-    loadView("login");
+      await createUser(userData);
+
+      loadView("login");
+    }
   });
 }
 
@@ -54,15 +63,20 @@ function uiLogin() {
 
     const logEmail = document.getElementById("log-email").value;
     const logPassword = document.getElementById("log-password").value;
+
     const allUsers = await getAllUsers();
 
     const user = allUsers.find(
       (u) => u.userEmail === logEmail && u.password === logPassword
     );
 
-    localStorage.setItem("Current user", JSON.stringify(user));
+    if (user !== undefined) {
+      localStorage.setItem("Current user", JSON.stringify(user));
 
-    loadView("profile");
+      loadView("profile");
+    } else {
+      alert("Email o contraseña no valido");
+    }
   });
 
   toRegister.addEventListener("click", () => {
