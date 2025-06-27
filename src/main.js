@@ -1,6 +1,7 @@
 import { createUser, getAllUsers, updateUserTask } from "./API/usersApi";
 import { renderTask } from "./utils/utils";
 import { credentialValidations } from "./utils/utils";
+import { showToast } from "./utils/utils";
 
 const main = document.getElementById("main-container");
 
@@ -75,7 +76,11 @@ function uiLogin() {
 
       loadView("profile");
     } else {
-      alert("Email o contraseña no valido");
+      // alert("Email o contraseña no valido");
+      showToast({
+        text: "Email o contraseña no valido",
+        type: "error",
+      });
     }
   });
 
