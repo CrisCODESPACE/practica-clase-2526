@@ -48,4 +48,30 @@ export async function getAllUsers() {
   } catch (error) {
     console.error(error); 
   }
+};
+
+export async function updateUserTask(id, taskList) {
+  const url = `${urlBase}/${id}`;
+  try {
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        taskList 
+      })
+      }
+    )
+
+    if(!response.ok) {
+      throw new Error ("Error:", response.status);
+    }
+
+    return await response.json();
+
+
+  } catch (error) {
+    console.error(error);  
+  }  
 }
